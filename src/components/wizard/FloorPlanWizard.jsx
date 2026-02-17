@@ -4,6 +4,7 @@ import ProgressBar from './ProgressBar';
 import AddressEntry from './AddressEntry';
 import CornerSelector from './CornerSelector';
 import RoomTypeSelector from './RoomTypeSelector';
+import CameraCapture from './CameraCapture';
 import Placeholder from './Placeholder';
 
 /**
@@ -44,11 +45,13 @@ export default function FloorPlanWizard() {
   }, []);
 
   const stepComponent = renderStep(displayedStep);
+  const isCaptureStep = displayedStep.startsWith('capture-');
+  const showProgress = displayedStep !== 'address' && !isCaptureStep;
 
   return (
-    <div className="flex flex-col h-screen max-h-screen bg-gray-50">
-      {/* Progress bar — always visible except on address entry */}
-      {displayedStep !== 'address' && <ProgressBar />}
+    <div className={`flex flex-col h-screen max-h-screen ${isCaptureStep ? 'bg-black' : 'bg-gray-50'}`}>
+      {/* Progress bar — hidden on address entry and camera capture */}
+      {showProgress && <ProgressBar />}
 
       {/* Step content with transition */}
       <div
@@ -78,13 +81,10 @@ function renderStep(step) {
     case 'room-type':
       return <RoomTypeSelector />;
     case 'capture-north':
-      return <Placeholder stepName="📷 Capture North Wall" nextStep="capture-east" prevStep="room-type" />;
     case 'capture-east':
-      return <Placeholder stepName="📷 Capture East Wall" nextStep="capture-south" prevStep="capture-north" />;
     case 'capture-south':
-      return <Placeholder stepName="📷 Capture South Wall" nextStep="capture-west" prevStep="capture-east" />;
     case 'capture-west':
-      return <Placeholder stepName="📷 Capture West Wall" nextStep="analyzing" prevStep="capture-south" />;
+      return <CameraCapture />;
 
     // ── Analysis (Session 1.3+) ──
     case 'analyzing':
