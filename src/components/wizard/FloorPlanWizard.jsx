@@ -5,6 +5,8 @@ import AddressEntry from './AddressEntry';
 import CornerSelector from './CornerSelector';
 import RoomTypeSelector from './RoomTypeSelector';
 import CameraCapture from './CameraCapture';
+import AnalyzingRoom from './AnalyzingRoom';
+import ReviewRoom from './ReviewRoom';
 import Placeholder from './Placeholder';
 
 /**
@@ -88,9 +90,9 @@ function renderStep(step) {
 
     // ── Analysis (Session 1.3+) ──
     case 'analyzing':
-      return <Placeholder stepName="🔍 Analyzing Room..." nextStep="review-room" prevStep="capture-west" />;
+      return <AnalyzingRoom />;
     case 'review-room':
-      return <Placeholder stepName="📐 Review Room Plan" nextStep="direction" prevStep="analyzing" />;
+      return <ReviewRoom />;
     case 'annotating':
       return <Placeholder stepName="✏️ Annotate Corrections" nextStep="review-room" prevStep="review-room" />;
 
